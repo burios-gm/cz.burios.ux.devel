@@ -185,8 +185,8 @@ scss/
 
 Soubory se začínajícím podtržítkem (`_button.scss` apod.) jsou tzv.
 "partials" — samy o sobě se nekompilují, importují se přes `@use` do
-některého ze tří vstupních bodů (`qp-framework.scss`, `light.scss`,
-`dark.scss`). Barvy (`--qpx-*`) jsou v SCSS zapsané jako **CSS custom
+některého ze tří vstupních bodů (`qp-all.scss`, `qp-light.scss`,
+`qp-dark.scss`). Barvy (`--qpx-*`) jsou v SCSS zapsané jako **CSS custom
 properties**, ne jako SCSS proměnné nahrazené při kompilaci — díky tomu
 funguje i běhové přepínání tématu třídou (`qpToolBar.option("theme", ...)`)
 a zároveň si je konzumentská aplikace může kdykoliv přebít vlastním
@@ -196,9 +196,9 @@ pravidlem (`.qpx-theme-generic-light { --qpx-accent: #ff5722; }`).
 
 | vstupní SCSS | výsledný CSS (`themes/`) | k čemu slouží |
 |---|---|---|
-| `qp-framework.scss` | `jquery.qpx.default.css` | obsahuje **obě** témata najednou, přepínatelná za běhu třídou `qpx-theme-generic-light` / `-dark` na kontejneru — vhodné, když appka nabízí přepínač světlo/tma |
-| `light.scss` | `jquery.qpx.light.css` | jen světlé téma, proměnné rovnou na `:root`/`.qpx-view` — netřeba žádná přepínací třída, menší výsledný soubor. Obdoba `dx.light.css` z DevExtreme |
-| `dark.scss` | `jquery.qpx.dark.css` | totéž pro tmavé téma. Obdoba `dx.dark.css` |
+| `qp-all.scss` | `jquery.qpx.default.css` | obsahuje **obě** témata najednou, přepínatelná za běhu třídou `qpx-theme-generic-light` / `-dark` na kontejneru — vhodné, když appka nabízí přepínač světlo/tma |
+| `qp-light.scss` | `jquery.qpx.light.css` | jen světlé téma, proměnné rovnou na `:root`/`.qpx-view` — netřeba žádná přepínací třída, menší výsledný soubor. Obdoba `dx.light.css` z DevExtreme |
+| `qp-dark.scss` | `jquery.qpx.dark.css` | totéž pro tmavé téma. Obdoba `dx.dark.css` |
 
 ### Příkazy npm (definované v `package.json`)
 
@@ -245,7 +245,7 @@ automaticky při každém uložení.
    — jinak nebude fungovat přepínání tématu. Rozměry/mezery/radius ber
    z `base/_variables.scss` (`@use "../base/variables" as *;`).
 2. Nový partial přidej přes `@use "widgets/muj-widget";` do
-   `qp-framework.scss` **a** do `light.scss`/`dark.scss` (pokud má
+   `qp-all.scss` **a** do `qp-light.scss`/`qp-dark.scss` (pokud má
    widget vypadat stejně ve všech třech buildech, což je obvyklý
    případ).
 3. Spusť `npm run build-css && npm run build-light && npm run build-dark`
