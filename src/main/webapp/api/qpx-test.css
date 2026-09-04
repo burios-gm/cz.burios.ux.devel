@@ -7,12 +7,13 @@
    Místo toho se všude používají PŘÍMO proměnné frameworku (--qpx-bg,
    --qpx-text, --qpx-text-muted, --qpx-border, --qpx-accent,
    --qpx-selected, --qpx-surface, ...), které nastavuje globální
-   (nescopnuté) pravidlo .qpx-theme-generic-light / .qpx-theme-generic-dark
-   z jquery.qpx.all.css.
+   (nescopnuté) pravidlo .qpx-theme-light / .qpx-theme-dark
+   (se zpětnou kompatibilitou pro .qpx-theme-generic-light / .qpx-theme-generic-dark)
+   z jquery.qpx.default.css.
 
    DŮLEŽITÉ: díky dědičnosti CSS proměnných stačí třídu
-   .qpx-theme-generic-light/-dark přepínat na jediném místě — na
-   <body> (viz applyTheme() v testovacích JSP) — a automaticky se
+   .qpx-theme-light/-dark přepínat na jediném místě — na
+   <body> (viz applyTheme()) — a automaticky se
    použije jak ve widgetech uvnitř stránky, tak v běžném obsahu
    stránky (nadpisy, .value-out, topbar, ...). NENÍ potřeba přepínat
    třídu na kontejneru každého widgetu zvlášť. */
@@ -22,7 +23,8 @@
     height: 36px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
+    justify-content: space-between;
+    padding: 0 12px;
     position: absolute;
     top: 0;
     left: 0;
@@ -30,35 +32,83 @@
     background: var(--qpx-surface, #f5f5f5);
     border-bottom: 1px solid var(--qpx-border, #d0d0d0);
     z-index: 1000;
+    box-sizing: border-box;
 }
-.qpx-test-topbar1 {
-    height: 32px;
-    display: block;
+
+.qpx-topbar-left {
+    display: flex;
     align-items: center;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    /*
-    background: var(--qpx-surface, #f5f5f5);
-    border-bottom: 1px solid var(--qpx-border, #d0d0d0);
-    */
-    z-index: 1000;
+    gap: 8px;
 }
-/*
+
+.qpx-topbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--qpx-text, #222);
+}
+
+.qpx-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.qpx-theme-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--qpx-text-muted, #666);
+    user-select: none;
+    margin: 0;
+}
+
+.qpx-theme-select {
+    height: 24px;
+    line-height: 22px;
+    padding: 1px 22px 1px 8px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--qpx-text, #222);
+    background-color: var(--qpx-bg, #fff);
+    border: 1px solid var(--qpx-border, #ccc);
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23666' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 8px 5px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.qpx-theme-select:hover {
+    border-color: var(--qpx-accent, #337ab7);
+}
+
+.qpx-theme-select:focus {
+    border-color: var(--qpx-accent, #337ab7);
+    box-shadow: 0 0 0 2px rgba(51, 122, 183, 0.2);
+}
+
 .qpx-back-home {
-    font-size: 20px;
+    font-size: 16px;
     text-decoration: none;
-    padding: 6px 10px;
+    padding: 4px 8px;
     color: var(--qpx-text, #111);
-    border-radius: 6px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 .qpx-back-home:hover {
-    background: var(--qpx-hover, #fff);
-    color: var(--qpx-text, #000);
+    background: var(--qpx-hover, rgba(0, 0, 0, 0.05));
+    color: var(--qpx-accent, #337ab7);
 }
-*/
 
 /* Scrollovací obsah stránky (vše pod topbarem) */
 .qpx-test-content {

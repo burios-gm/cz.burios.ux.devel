@@ -1,30 +1,40 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>${appTitle}</title>
+    <title><%= appTitle %></title>
 
     <link rel="icon" href="/devel/favicon.png">
-    <link rel="stylesheet" href="/devel/libs/fonts/fontawesome/4.7/css/font-awesome.min.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=${ timeNo }" type="text/css">
-    <link rel="stylesheet" href="/devel/css/qpx-test.css?build=${timeNo}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=<%= timeNo %>" type="text/css">
+    <link rel="stylesheet" href="/devel/api/qpx-test.css?build=<%= timeNo %>">
 
     <script type="text/javascript" src="/devel/libs/jquery/jquery-3.7.1.js"></script>
     <script type="text/javascript" src="/devel/libs/qpx/jquery.qpx.all.js"></script>
+    <script type="text/javascript" src="/devel/api/qpx-test.js?build=<%= timeNo %>"></script>
 </head>
 
-<body class="qpx-view  qpx-theme-generic-light">
+<body class="qpx-view qpx-theme-light">
 	<div class="qpx-test-topbar">
-		<a href="/devel/" class="qpx-back-home" title="Zpět na hlavní stránku">
-			<span class="fa fa-home"></span>
-		</a>
+		<div class="qpx-topbar-left">
+			<a href="/devel/" class="qpx-back-home" title="Zpět na hlavní stránku">
+				<span class="fa fa-home"></span>
+			</a>
+			<span class="qpx-topbar-title">QPX / qpButton</span>
+		</div>
+		<div class="qpx-topbar-right">
+			<label for="themeSelect" class="qpx-theme-label">Styl:</label>
+			<select id="themeSelect" class="qpx-theme-select" aria-label="Přepnout styl">
+				<option value="light">Light</option>
+				<option value="dark">Dark</option>
+			</select>
+		</div>
 	</div>
 	<div class="qpx-test-content">
 		<header class="page-head">
-			<h1><i class="qpxicon qpxicon-square"></i>qpButton – Test</h1>
+			<h1>qpButton – Test</h1>
 			<p class="subtitle">
 				Základní tlačítko — varianty type/stylingMode, ikona a hint, přepínání disabled/text za běhu
 				a vlastní template obsahu.
@@ -114,30 +124,24 @@
                 onClick: function () { console.log("klik na tlačítko s vlastním template"); }
             }, $("<div></div>").appendTo("#templateRow"));
 
-            // -----------------------------------------------------------------
-            // Horní panel: přepínač tématu
-            //
-            // Třída .qpx-theme-generic-light / .qpx-theme-generic-dark se
-            // nastavuje JEDNOU na společného předka (.qpx-test-content),
-            // ne na jednotlivé widgety zvlášť. V jquery.qpx.all.css jde o
-            // globální (nescopnuté) pravidlo, které jen nastaví CSS
-            // proměnné frameworku (--qpx-bg, --qpx-text, --qpx-border, ...)
-            // - díky dědičnosti CSS proměnných se pak automaticky použijí
-            // ve všech widgetech uvnitř i v běžném obsahu stránky (nadpisy,
-            // .value-out, ...), aniž by bylo nutné widgety enumerovat.
-            // -----------------------------------------------------------------
             function applyTheme(themeClass) {
-                $(".qpx-test-content")
-                    .removeClass("qpx-theme-generic-light qpx-theme-generic-dark")
-                    .addClass(themeClass);
-                toolbar.option("theme", themeClass.replace("qpx-theme-", ""));
-                // zpětně kompatibilní přepínač pro topbar (viz qpx-test.css)
-                $("body").toggleClass("qpx-page-dark", themeClass === "qpx-theme-generic-dark");
+                var normalized = themeClass
+                    .replace("qpx-theme-generic-", "qpx-theme-")
+                    .replace(/^light$/, "qpx-theme-light")
+                    .replace(/^dark$/, "qpx-theme-dark");
+
+                $(".qpx-test-content, body")
+                    .removeClass("qpx-theme-light qpx-theme-dark qpx-theme-generic-light qpx-theme-generic-dark")
+                    .addClass(normalized);
+                if (window.toolbar) {
+                    window.toolbar.option("theme", normalized.replace("qpx-theme-", ""));
+                }
+                $("body").toggleClass("qpx-page-dark", normalized === "qpx-theme-dark");
             }
 
-			var toolbar = qpx.ui({
+			window.toolbar = qpx.ui({
 				view: "qpToolBar",
-				theme: "generic-light",
+				theme: "light",
 				items: [{
 					location: "before", widget: "template",
 						template: "<b style='padding:0 4px;'>Téma:</b>"
@@ -145,19 +149,19 @@
 						location: "before", widget: "buttonGroup",
 						options: {
 							items: [
-								{ text: "Světlé", key: "generic-light" },
-								{ text: "Tmavé", key: "generic-dark" }
+								{ text: "Světlé", key: "light" },
+								{ text: "Tmavé", key: "dark" }
 							],
-							selectedItemKeys: ["generic-light"],
+							selectedItemKeys: ["light"],
 							onSelectionChanged: function (e) {
-								var key = e.component.getSelectedItemKeys()[0] || "generic-light";
+								var key = e.component.getSelectedItemKeys()[0] || "light";
 								applyTheme("qpx-theme-" + key);
 							}
 						}
 					}
 				]
 			}, "#styleToolbar");
-			applyTheme("qpx-theme-generic-light");
+			applyTheme("qpx-theme-light");
 		});
 	</script>
 </body>

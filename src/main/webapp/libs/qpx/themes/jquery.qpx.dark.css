@@ -462,7 +462,9 @@
 }
 
 :root,
-.qpx-view {
+.qpx-view,
+.qpx-theme-dark,
+.qpx-theme-generic-dark {
   --qpx-bg: #2a2a2a;
   --qpx-surface: #333333;
   --qpx-border: #474747;
@@ -483,4 +485,5 @@
   --qpx-alt-row-bg: #2b2b2b;
   --qpx-disabled: #5c5c5c;
   --qpx-edit-bg: #3a3418;
+  color-scheme: dark;
 }

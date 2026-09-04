@@ -1,0 +1,8 @@
+{
+  "name": "QPX Framework Devel",
+  "description": "Interactive developer test suite and playground for the QPX JavaScript UI component framework with Express backend.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

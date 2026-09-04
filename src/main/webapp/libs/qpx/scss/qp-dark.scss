@@ -18,6 +18,9 @@
 @use "widgets/textbox";
 
 :root,
-.qpx-view {
+.qpx-view,
+.qpx-theme-dark,
+.qpx-theme-generic-dark {
     @include dark.qpx-theme-vars;
+    color-scheme: dark;
 }

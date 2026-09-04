@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= appTitle %> - <%= widgetName %></title>
+
+    <link rel="icon" href="/devel/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=<%= timeNo %>" type="text/css">
+    <link rel="stylesheet" href="/devel/api/qpx-test.css?build=<%= timeNo %>">
+
+    <script type="text/javascript" src="/devel/libs/jquery/jquery-3.7.1.js"></script>
+    <script type="text/javascript" src="/devel/libs/qpx/jquery.qpx.all.js"></script>
+    <script type="text/javascript" src="/devel/api/qpx-test.js?build=<%= timeNo %>"></script>
+</head>
+
+<body class="qpx-view qpx-theme-light">
+	<div class="qpx-test-topbar">
+		<div class="qpx-topbar-left">
+			<a href="/devel/" class="qpx-back-home" title="Zpět na hlavní stránku">
+				<span class="fa fa-home"></span>
+			</a>
+			<span class="qpx-topbar-title">QPX / <%= widgetName %></span>
+		</div>
+		<div class="qpx-topbar-right">
+			<label for="themeSelect" class="qpx-theme-label">Styl:</label>
+			<select id="themeSelect" class="qpx-theme-select" aria-label="Přepnout styl">
+				<option value="light">Light</option>
+				<option value="dark">Dark</option>
+			</select>
+		</div>
+	</div>
+	<div class="qpx-test-content">
+		<header class="page-head">
+			<h1><%= widgetName %> – Test &amp; Náhled</h1>
+			<p class="subtitle">
+				Interaktivní testovací a inspekční stránka pro komponentu <code><%= widgetName %></code> v rámci QPX frameworku.
+			</p>
+		</header>
+        <div class="toolbar-wrap">
+            <div id="styleToolbar"></div>
+        </div>
+		<main>
+			<div class="demo-block">
+				<h2>1) Živý náhled widgetu</h2>
+				<p class="desc">Inicializace komponenty přes <code>qpx.ui()</code></p>
+				<div id="widgetContainer" style="padding: 16px; background: var(--qpx-surface, #fafafa); border: 1px solid var(--qpx-border, #e2e6ea); border-radius: 6px;"></div>
+				<div class="value-out" id="out1">Stav komponenty: načteno</div>
+			</div>
+
+			<div class="demo-block">
+				<h2>2) Dokumentace a dostupné metody</h2>
+				<p class="desc">Základní informace o rozhraní komponenty v <code>qpx</code> registry:</p>
+				<div id="widgetInfo" style="font-family: monospace; font-size: 12px; padding: 12px; background: #fff; border: 1px solid #ddd; border-radius: 4px;">
+					Registrováno: <%= widgetName %> (<%= isRegistered ? "dostupné v qpx.registry" : "plánováno pro další rozšíření" %>)
+				</div>
+			</div>
+		</main>
+	</div>
+
+	<script>
+        $(function () {
+            var widgetKey = "<%= widgetName %>".toLowerCase().replace("qp", "");
+            
+            function applyTheme(themeClass) {
+                var normalized = themeClass
+                    .replace("qpx-theme-generic-", "qpx-theme-")
+                    .replace(/^light$/, "qpx-theme-light")
+                    .replace(/^dark$/, "qpx-theme-dark");
+
+                $(".qpx-test-content, body")
+                    .removeClass("qpx-theme-light qpx-theme-dark qpx-theme-generic-light qpx-theme-generic-dark")
+                    .addClass(normalized);
+                if (window.toolbar) {
+                    window.toolbar.option("theme", normalized.replace("qpx-theme-", ""));
+                }
+                $("body").toggleClass("qpx-page-dark", normalized === "qpx-theme-dark");
+            }
+
+			window.toolbar = qpx.ui({
+				view: "qpToolBar",
+				theme: "light",
+				items: [{
+					location: "before", widget: "template",
+						template: "<b style='padding:0 4px;'>Téma:</b>"
+					}, {
+						location: "before", widget: "buttonGroup",
+						options: {
+							items: [
+								{ text: "Světlé", key: "light" },
+								{ text: "Tmavé", key: "dark" }
+							],
+							selectedItemKeys: ["light"],
+							onSelectionChanged: function (e) {
+								var key = e.component.getSelectedItemKeys()[0] || "light";
+								applyTheme("qpx-theme-" + key);
+							}
+						}
+					}
+				]
+			}, "#styleToolbar");
+			applyTheme("qpx-theme-light");
+
+			// Pokus o inicializaci widgetu
+			try {
+				if (widgetKey === "textbox") {
+					qpx.ui({
+						view: "textbox",
+						placeholder: "Zadejte text...",
+						value: "Ukázkový text",
+						onValueChanged: function(e) {
+							$("#out1").text("value: " + e.value);
+						}
+					}, "#widgetContainer");
+				} else if (qpx.getWidget && qpx.getWidget(widgetKey)) {
+					qpx.ui({
+						view: widgetKey,
+						text: "Ukázka " + widgetKey
+					}, "#widgetContainer");
+				} else {
+					$("#widgetContainer").html("<p style='color:#666; margin:0;'>Komponenta <b>" + widgetKey + "</b> je připravena v rozcestníku. Zaregistrujte potomka <code>qpx.Widget</code> pro plné vykreslení.</p>");
+				}
+			} catch (err) {
+				$("#widgetContainer").html("<p style='color:#666;'>Náhled widgetu <b>" + widgetKey + "</b> (" + err.message + ")</p>");
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,51 +1,70 @@
-$(function () {
-	// -------------------------------------------------------------
-	// TOPBAR – qpToolBar s breadcrumb + dropdown Styl
-	// -------------------------------------------------------------
-	qpx.ui({
-		view: "qpToolBar",
-		theme: "generic-light",
-		items: [{
-			location: "before",
-			widget: "qpBreadcrumb",
-			options: {
-			items: [
-				{ id: "home", text: "", icon: "qpxicon qpxicon-home qpxicon-md", url: "/devel" },
-				{ id: "qpWidget", text: "" + widgetName }
-			]}
-		}, {
-			location: "after",
-			widget: "qpDropDownButton",
-			options: {
-				text: "Styl",
-				stylingMode: "text",
-				items: [
-					{ key: "light", text: "Light" },
-					{ key: "dark", text: "Dark" }
-				],
-				useSelectMode: false,
-				onItemClick: function (e) {
-					var key = e.itemData.key;
-					var themeClass = key === "dark"
-						? "qpx-theme-generic-dark"
-						: "qpx-theme-generic-light";
+/**
+ * QPX Test Pages - společná logika pro testovací stránky komponent
+ * Včetně přepínání stylování Light / Dark v topbaru vpravo
+ */
 
-					$(".qpx-test-content")
-						.removeClass("qpx-theme-generic-light qpx-theme-generic-dark")
-						.addClass(themeClass);
+function applyTheme(theme) {
+	var isDark = theme === "dark" ||
+		theme === "qpx-theme-dark" ||
+		theme === "generic-dark" ||
+		theme === "qpx-theme-generic-dark";
 
-					$("body").toggleClass("qpx-page-dark", key === "dark");
-				}
-			}
-		}]
-	}, "#pageTopbar");
-});
+	var activeTheme = isDark ? "dark" : "light";
+	var themeClass = isDark ? "qpx-theme-dark" : "qpx-theme-light";
 
-function applyTheme(themeClass) {
-	$(".qpx-test-content")
-		.removeClass("qpx-theme-generic-light qpx-theme-generic-dark")
+	try {
+		localStorage.setItem("qpx-theme", activeTheme);
+	} catch (e) {}
+
+	// Aplikace tématu na body, html i obsahové elementy
+	$("body, .qpx-test-content")
+		.removeClass("qpx-theme-light qpx-theme-dark qpx-theme-generic-light qpx-theme-generic-dark")
 		.addClass(themeClass);
-	toolbar.option("theme", themeClass.replace("qpx-theme-", ""));
-	// zpětně kompatibilní přepínač pro topbar (viz qpx-test.css)
-	$("body").toggleClass("qpx-page-dark", themeClass === "qpx-theme-generic-dark");
+
+	document.documentElement.setAttribute("data-qpx-theme", activeTheme);
+	$("body").toggleClass("qpx-page-dark", isDark);
+
+	// Synchronizace selectu v topbaru
+	var $select = $("#themeSelect");
+	if ($select.length && $select.val() !== activeTheme) {
+		$select.val(activeTheme);
+	}
+
+	// Synchronizace toolbaru na stránce, pokud existuje
+	if (window.toolbar && typeof window.toolbar.option === "function") {
+		try { window.toolbar.option("theme", activeTheme); } catch (e) {}
+	}
+	if (window.toolbarWidget && typeof window.toolbarWidget.option === "function") {
+		try { window.toolbarWidget.option("theme", activeTheme); } catch (e) {}
+	}
 }
+
+$(function () {
+	// Pokud topbar existuje, ale ještě nemá select vpravo, automaticky jej doplníme
+	var $topbar = $(".qpx-test-topbar");
+	if ($topbar.length && $("#themeSelect").length === 0) {
+		var $right = $(
+			'<div class="qpx-topbar-right">' +
+				'<label for="themeSelect" class="qpx-theme-label">Styl:</label>' +
+				'<select id="themeSelect" class="qpx-theme-select" aria-label="Přepnout styl">' +
+					'<option value="light">Light</option>' +
+					'<option value="dark">Dark</option>' +
+				'</select>' +
+			'</div>'
+		);
+		$topbar.append($right);
+	}
+
+	// Obsluha změny v selectu
+	$(document).on("change", "#themeSelect", function () {
+		applyTheme($(this).val());
+	});
+
+	// Načtení a aplikace preferovaného tématu
+	var savedTheme = "light";
+	try {
+		savedTheme = localStorage.getItem("qpx-theme") || "light";
+	} catch (e) {}
+
+	applyTheme(savedTheme);
+});

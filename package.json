@@ -1,16 +1,28 @@
 {
 	"devDependencies": {
+		"@types/express": "^5.0.6",
+		"@types/multer": "^2.2.0",
+		"@types/node": "^26.4.1",
 		"esbuild": "^0.27.2",
 		"gulp": "^5.0.1",
 		"gulp-concat": "^2.6.1",
-		"sass": "^1.99.0"
+		"sass": "^1.99.0",
+		"tsx": "^4.23.13"
 	},
 	"scripts": {
+		"dev": "tsx server.ts",
+		"build": "esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+		"start": "node dist/server.cjs",
 		"build-css": "npx sass --no-source-map \"src/main/webapp/libs/qpx/scss/qp-all.scss\" \"src/main/webapp/libs/qpx/themes/jquery.qpx.default.css\"",
 		"build-light": "npx sass --no-source-map \"src/main/webapp/libs/qpx/scss/qp-light.scss\" \"src/main/webapp/libs/qpx/themes/jquery.qpx.light.css\"",
 		"build-dark": "npx sass --no-source-map \"src/main/webapp/libs/qpx/scss/qp-dark.scss\" \"src/main/webapp/libs/qpx/themes/jquery.qpx.dark.css\"",
 		"watch-css": "npx sass --watch --no-source-map \"src/main/webapp/libs/qpx/scss/qp-all.scss\" \"src/main/webapp/libs/qpx/themes/jquery.qpx.default.css\"",
 		"test-css": "npx sass \"src/main/webapp/libs/qpx/scss/qp-all.scss\"",
 		"build-js": "gulp build-js"
+	},
+	"dependencies": {
+		"ejs": "^6.0.1",
+		"express": "^5.2.1",
+		"multer": "^2.3.0"
 	}
 }

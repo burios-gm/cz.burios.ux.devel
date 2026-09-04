@@ -1,61 +1,53 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%
-System.out.println("/devel/template.jsp");
-%>
 <!DOCTYPE html>
 <html lang="cs">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>qpx — template</title>
+		<title><%= appTitle %></title>
 
 		<link rel="icon" href="/devel/favicon.png">
-		<link rel="stylesheet" href="/devel/libs/fonts/fontawesome/4.7/css/font-awesome.min.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=${ timeNo }" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=<%= timeNo %>" type="text/css">
+		<link rel="stylesheet" href="/devel/api/qpx-test.css?build=<%= timeNo %>">
 
 		<style type="text/css">
 			header.page-head { padding: 18px 24px 6px; }
-			h1 { font-size: 18px; margin: 0 0 4px; }
-			.page-head h1 { color: red; }
-			.subtitle { color: #767676; font-size: 12px; margin: 0; }
+			h1 { font-size: 18px; margin: 0 0 4px; color: var(--qpx-accent, #337ab7); }
+			.subtitle { color: var(--qpx-text-muted, #767676); font-size: 12px; margin: 0; }
 			main { padding: 8px 24px 60px; max-width: 760px; }			
-			h2 { font-size: 15px; margin: 24px 20px 8px; color:#555; }
-			section { margin: 0 20px 20px; background:#fff; border:1px solid #e2e6ea; border-radius:6px; padding:16px; }
-			.box { border:1px solid #dfe3e8; padding:10px; }
-			.row { display:flex; gap:10px; margin-bottom:10px; }
-			.qpx-back-home {
-				font-size: 20px;
-				text-decoration: none;
-				padding: 6px 10px;
-			}
-			.qpx-back-home:hover {
-				background: #fff;
-				color: #000;
-			}		
+			h2 { font-size: 15px; margin: 24px 20px 8px; color: var(--qpx-text-muted, #555); }
+			section { margin: 0 20px 20px; background: var(--qpx-surface, #fff); border: 1px solid var(--qpx-border, #e2e6ea); border-radius: 6px; padding: 16px; }
+			.box { border: 1px solid var(--qpx-border, #dfe3e8); padding: 10px; background: var(--qpx-bg, #fff); }
+			.row { display: flex; gap: 10px; margin-bottom: 10px; }
 		</style>
 
 		<script type="text/javascript" src="/devel/libs/jquery/jquery-3.7.1.js"></script>
 		<script type="text/javascript" src="/devel/libs/qpx/jquery.qpx.all.js"></script>
+		<script type="text/javascript" src="/devel/api/qpx-test.js?build=<%= timeNo %>"></script>
 	</head>
-	<body class="qpx-view">
-		<!-- návratová ikona vlevo nahoře -->
-		<div style="height: 36px; position: absolute; top: 0; left: 0; right: 0; border-bottom: 1px solid &dedede;">
-			<a href="/devel/" class="qpx-back-home" title="Zpět na hlavní stránku">
-				<span class="fa fa-home"></span>
-			</a>
+	<body class="qpx-view qpx-theme-light">
+		<div class="qpx-test-topbar">
+			<div class="qpx-topbar-left">
+				<a href="/devel/" class="qpx-back-home" title="Zpět na hlavní stránku">
+					<span class="fa fa-home"></span>
+				</a>
+				<span class="qpx-topbar-title">QPX / qpTemplate</span>
+			</div>
+			<div class="qpx-topbar-right">
+				<label for="themeSelect" class="qpx-theme-label">Styl:</label>
+				<select id="themeSelect" class="qpx-theme-select" aria-label="Přepnout styl">
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+				</select>
+			</div>
 		</div>
-		<div style="min-height: 320px; position: absolute; top: 36px; left: 0; right: 0; border: 0; border: 0px solid red;">
+		<div class="qpx-test-content">
 			<header class="page-head">
 				<h1>qpx.Template — testovací stránka</h1>
-				<p class="subtitle">Pole otvírající POPUP s libovolným vlastním obsahem (contentTemplate) — analogie DevExtreme dxDropDownBox. Nespravuje si vlastní seznam, jen rám pole + popup.</p>
+				<p class="subtitle">Vykreslení HTML šablony s proměnnými, funkcemi a reaktivní aktualizací dat.</p>
 			</header>
-			<div class="toolbar-wrap">
-				<div id="pageToolbar"></div>
-			</div>
 			<main>
-				<!-- ============================================================ -->
 				<h2>1) String šablona s proměnnými #var# a {var}</h2>
 				<section>
 					<div id="basic" class="box"></div>
@@ -64,20 +56,17 @@ System.out.println("/devel/template.jsp");
 					</div>
 				</section>
 		
-				<!-- ============================================================ -->
 				<h2>2) Šablona jako funkce (výpis pole)</h2>
 				<section>
 					<div id="listTpl" class="box"></div>
 				</section>
 		
-				<!-- ============================================================ -->
 				<h2>3) setHTML() a event afterrender/change</h2>
 				<section>
 					<div id="htmlTpl" class="box"></div>
 					<div id="log3" style="margin-top:10px; font-family:monospace; font-size:12px; color:#666;"></div>
 				</section>
 		
-				<!-- ============================================================ -->
 				<h2>4) Deklarativně přes data-qpx-* atributy</h2>
 				<section>
 					<div data-qpx-view="template"

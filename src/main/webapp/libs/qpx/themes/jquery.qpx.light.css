@@ -462,7 +462,9 @@
 }
 
 :root,
-.qpx-view {
+.qpx-view,
+.qpx-theme-light,
+.qpx-theme-generic-light {
   --qpx-bg: #ffffff;
   --qpx-surface: #f8f9fb;
   --qpx-border: #d3d9df;
@@ -483,4 +485,5 @@
   --qpx-alt-row-bg: #f7f8fa;
   --qpx-disabled: #bdbdbd;
   --qpx-edit-bg: #fff8e1;
+  color-scheme: light;
 }

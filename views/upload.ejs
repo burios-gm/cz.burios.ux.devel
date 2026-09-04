@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="cs">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+		<title><%= appTitle %></title>
+
+		<link rel="icon" href="/devel/favicon.png">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="/devel/libs/qpx/themes/jquery.qpx.default.css?build=<%= timeNo %>" type="text/css">
+		<link rel="stylesheet" href="/devel/api/qpx-test.css?build=<%= timeNo %>">
+
+		<style type="text/css">
+		html, body {
+			font-family: "Segoe UI", Arial, sans-serif;
+			font-size: 13px;
+			margin: 0;
+			padding: 24px;
+			background: #f4f6f8;
+		}
+		.card-container {
+			background: #fff;
+			max-width: 540px;
+			border-radius: 8px;
+			border: 1px solid #e2e6ea;
+			padding: 24px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+		}
+		.qpx-back-home {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			text-decoration: none;
+			color: #337ab7;
+			margin-bottom: 16px;
+			font-size: 13px;
+		}
+		button {
+			padding: 8px 16px;
+			background: #337ab7;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		button:hover {
+			background: #286090;
+		}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	</head>
+	<body>
+		<div class="card-container">
+			<a href="/devel/" class="qpx-back-home"><i class="fa fa-arrow-left"></i> Zpět na rozcestník QPX</a>
+			<h1 style="font-size: 20px; margin-top: 0;">Nahrát soubor (AJAX)</h1>
+			<p style="color: #666; margin-bottom: 20px;">Vyberte soubor ze svého počítače pro nahrání na server.</p>
+
+			<form id="uploadForm" enctype="multipart/form-data" style="display: flex; gap: 10px; align-items: center;">
+				<input type="file" name="file" id="file"/>
+				<button type="submit">Nahrát</button>
+			</form>
+			<div id="result" style="margin-top: 16px;"></div>
+		</div>
+
+		<script>
+		$(function() {
+			$("#uploadForm").on("submit", function(e) {
+		        e.preventDefault();
+		        var fileInput = document.getElementById("file");
+		        if (!fileInput.files.length) {
+		        	$("#result").html("<p style='color:#d9534f'>Vyberte soubor k nahrání.</p>");
+		        	return;
+		        }
+		        var formData = new FormData(this);
+		        $.ajax({
+					url: "/upload",
+					type: "POST",
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(resp) {
+						$("#result").html("<p style='color:#5cb85c'>Soubor nahrán: " + (resp.message || "Úspěšně uloženo.") + "</p>");
+					},
+					error: function(xhr) {
+						$("#result").html("<p style='color:#d9534f'>Chyba: " + (xhr.responseText || "Nahrávání selhalo") + "</p>");
+					}
+				});
+			});
+		});
+		</script>
+	</body>
+</html>

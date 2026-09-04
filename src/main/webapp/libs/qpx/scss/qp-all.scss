@@ -29,5 +29,24 @@
 @use "widgets/popup-list";
 @use "widgets/textbox";
 
-.qpx-theme-generic-light { @include light.qpx-theme-vars; }
-.qpx-theme-generic-dark  { @include dark.qpx-theme-vars; }
+// 1) Výchozí stav (light) přímo na :root i na .qpx-view pro okamžitou funkčnost
+:root {
+    @include light.qpx-theme-vars;
+    color-scheme: light;
+}
+
+// 2) Téma light - nová třída .qpx-theme-light + data-atribut + zpětně kompatibilní alias
+.qpx-theme-light,
+[data-qpx-theme="light"],
+.qpx-theme-generic-light {
+    @include light.qpx-theme-vars;
+    color-scheme: light;
+}
+
+// 3) Téma dark - nová třída .qpx-theme-dark + data-atribut + zpětně kompatibilní alias
+.qpx-theme-dark,
+[data-qpx-theme="dark"],
+.qpx-theme-generic-dark {
+    @include dark.qpx-theme-vars;
+    color-scheme: dark;
+}
