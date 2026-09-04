@@ -1,0 +1,48 @@
+// =====================================================================
+// qpx - widgets/_layout.scss
+// Styly pro komponentu "layout" (qpx.layout.js) - rows/cols flexbox
+// kontejner, včetně responzivního přeskládání "cols" na úzkém displeji.
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+.qpx-layout.qpx-rows { flex-direction: column; }
+.qpx-layout.qpx-cols { flex-direction: row; }
+
+.qpx-layout.qpx-layout-space { gap: $qpx-gap-md; }
+.qpx-layout.qpx-layout-line > .qpx-cell {
+    border: 1px solid var(--qpx-border, #dfe3e8);
+}
+
+.qpx-cell {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+}
+.qpx-cell > .qpx-view {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+}
+.qpx-cell.qpx-spacer { flex: 1 1 auto; overflow: visible; }
+
+// responzivita: sloupcový layout se na úzkém displeji přeskládá do řádků
+@media (max-width: 760px) {
+    .qpx-layout.qpx-cols.qpx-responsive {
+        flex-direction: column;
+    }
+    .qpx-layout.qpx-cols.qpx-responsive > .qpx-cell {
+        width: auto !important;
+        height: auto !important;
+    }
+}

@@ -1,0 +1,106 @@
+// =====================================================================
+// qpx - base/_variables.scss
+// Sdílené "designové tokeny" nezávislé na tématu (rozměry, mezery,
+// typografie, časování přechodů...). Barvy NEJSOU zde - ty jsou v
+// scss/themes/_light.scss a scss/themes/_dark.scss a do CSS se
+// promítají jako CSS proměnné (--qpx-*), aby šlo téma přepínat za
+// běhu (viz scss/qp-framework.scss).
+//
+// Pozn.: qpDataGrid a qpTabView měly dřív vlastní privátní sadu
+// $qp-grid-*/$qp-tabview-* proměnných (rozměry i barvy). Rozměrové
+// (netématizované) tokeny byly přesunuty sem pod jednotný prefix
+// "$qpx-", barevné tokeny byly sjednoceny s ostatními widgety přes
+// CSS proměnné --qpx-* (viz themes/_light.scss, themes/_dark.scss).
+// Stejnou cestou se sjednotil i qpRibbon.
+// =====================================================================
+
+$qpx-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$qpx-font-size: 12px;
+$qpx-font-size-sm: 10px;
+
+$qpx-radius: 4px;
+$qpx-radius-sm: 3px;
+$qpx-radius-md: 4px;
+
+$qpx-transition: .12s ease;
+
+$qpx-gap-xs: 4px;
+$qpx-gap-sm: 6px;
+$qpx-gap-md: 8px;
+
+$qpx-padding-btn-y: 6px;
+$qpx-padding-btn-x: 14px;
+
+$qpx-toolbar-height: 44px;
+$qpx-toolbar-padding-x: 8px;
+
+$qpx-z-popup: 2000;
+
+// -----------------------------------------------------------------
+// qpDataGrid - rozměrové tokeny (dřív $qp-grid-*)
+// -----------------------------------------------------------------
+$qpx-grid-row-height: 38px;
+$qpx-grid-header-height: 40px;
+$qpx-grid-cell-padding-x: 12px;
+$qpx-grid-checkbox-size: 15px;
+
+// -----------------------------------------------------------------
+// qpTabView - rozměrové tokeny (dřív $qp-tabview-*)
+// -----------------------------------------------------------------
+$qpx-tabview-tab-height: 48px;
+$qpx-tabview-tab-padding-x: 20px;
+$qpx-tabview-tab-gap: 4px;
+$qpx-tabview-indicator-height: 2px;
+$qpx-tabview-nav-size: 32px;
+$qpx-tabview-icon-size: 18px;
+
+// -----------------------------------------------------------------
+// qpRibbon - rozměrové tokeny (styl MS Office 365 online - kompaktní,
+// malé písmo $qpx-font-size-sm)
+// -----------------------------------------------------------------
+$qpx-ribbon-tab-height: 26px;
+$qpx-ribbon-tab-padding-x: 12px;
+$qpx-ribbon-panel-height: 74px;
+$qpx-ribbon-group-padding-x: 8px;
+$qpx-ribbon-item-height: 22px;      // vstupní widgety v pásu karet (qpTextBox, qpNumberBox, qpDropDownButton)
+$qpx-ribbon-item-large-width: 58px;
+$qpx-ribbon-icon-size: 16px;
+$qpx-ribbon-icon-size-large: 28px;
+
+// qpRibbonButton - výška "small" varianty je odměřená tak, aby se 3
+// tlačítka naskládaná pod sebe (item.stack v qpRibbon) přesně vešla do
+// dostupné výšky skupiny (panel-height mínus title mínus paddingy),
+// beze zbytku a bez přetékání mimo skupinu.
+$qpx-ribbon-btn-small-height: 17px;
+$qpx-ribbon-btn-stack-gap: 1px;
+
+// -----------------------------------------------------------------
+// Sdílené mixiny používané napříč widgety
+// -----------------------------------------------------------------
+
+// Vizuální stav "disabled" - stejný napříč button/buttonGroup/dropDownButton
+@mixin qpx-disabled-state {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+}
+
+// Focus-visible zvýraznění pomocí akcentové barvy tématu
+@mixin qpx-focus-ring {
+    outline: none;
+    &:focus-visible {
+        box-shadow: 0 0 0 2px var(--qpx-accent, #337ab7) inset;
+    }
+}
+
+// Společný vzhled "popup" panelu (dropDownButton menu, toolbar overflow menu, ...)
+@mixin qpx-popup-surface {
+    position: absolute;
+    z-index: $qpx-z-popup;
+    background: var(--qpx-bg, #fff);
+    border: 1px solid var(--qpx-border, #ccc);
+    border-radius: $qpx-radius;
+    box-shadow: 0 4px 14px var(--qpx-shadow, rgba(0, 0, 0, .18));
+    color: var(--qpx-text, #333);
+    font-size: $qpx-font-size;
+}

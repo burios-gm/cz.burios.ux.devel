@@ -1,0 +1,27 @@
+// =====================================================================
+// qpx - widgets/_popup-list.scss
+// Sdílený vzhled "popup" seznamů: menu komponenty dropDownButton a
+// přetečené menu toolbaru (qpx-toolbar-menu ho rozšiřuje ve
+// widgets/_toolbar.scss).
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-popup-list {
+    @include qpx-popup-surface;
+    min-width: 160px;
+    padding: 4px 0;
+}
+
+.qpx-popup-list-item {
+    display: flex;
+    align-items: center;
+    gap: $qpx-gap-md;
+    padding: 7px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover { background: var(--qpx-hover, #eee); }
+    &.qpx-state-selected { background: var(--qpx-selected, #dbe9f5); color: var(--qpx-accent, #337ab7); }
+    &.qpx-state-disabled { @include qpx-disabled-state; }
+}

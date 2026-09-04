@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Původní kyanový gradient -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+    
+    <!-- Původní fialový/magenta gradient pro akcenty -->
+    <linearGradient id="purpleGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f355da" />
+      <stop offset="100%" stop-color="#7000ff" />
+    </linearGradient>
+
+    <!-- Mírný stín pod písmeny pro hloubku a čitelnost -->
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Hlavní skupina loga -->
+  <g filter="url(#subtleShadow)">
+    
+    <!-- 1. Pozadí: Geometrický půlměsíc (Základ písmene Q v kyanové) -->
+    <path d="M 256,64 A 192,192 0 1,0 448,256 A 160,160 0 1,1 288,96 A 192,192 0 0,0 256,64 Z" fill="url(#cyanGrad)" opacity="0.85" />
+    
+    <!-- Jemná dekorační mřížka uvnitř půlměsíce -->
+    <path d="M 120,256 L 256,256 M 140,160 L 256,256 M 140,352 L 256,256 M 200,90 L 256,256 M 200,422 L 256,256" stroke="#ffffff" stroke-width="2" opacity="0.15" stroke-dasharray="4 4" />
+
+    <!-- 2. Litera 'P': Čistá, silná linie protínající střed (ve fialové) -->
+    <path d="M 220,130 L 220,382 M 220,130 L 300,130 A 63,63 0 0,1 300,256 L 220,256" fill="none" stroke="url(#purpleGrad)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 3. Litera 'X': Dynamicky provázaná v pravé části (v kyanové) -->
+    <path d="M 330,150 L 230,350 M 240,160 L 370,390" fill="none" stroke="url(#cyanGrad)" stroke-width="28" stroke-linecap="round" />
+
+    <!-- Středové křížení písmene X (fialový uzel komponenty) -->
+    <circle cx="295" cy="265" r="16" fill="url(#purpleGrad)" />
+    
+    <!-- NOVINKA: Protáhnutí tečky do krátké fialové čárky (ocásek písmene Q) -->
+    <path d="M 355,375 L 395,415" fill="none" stroke="url(#purpleGrad)" stroke-width="36" stroke-linecap="round" />
+  </g>
+
+  <!-- 4. Textové označení pod logem (ve fialové) -->
+  <text x="256" y="475" font-family="'Segoe UI', -apple-system, Roboto, sans-serif" font-weight="900" font-size="36" fill="url(#purpleGrad)" text-anchor="middle" letter-spacing="6">QPX</text>
+</svg>

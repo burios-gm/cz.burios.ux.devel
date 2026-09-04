@@ -1,0 +1,42 @@
+// =====================================================================
+// qpx - themes/_dark.scss
+// Barevná paleta "generic-dark", vzhledově vycházející z výchozího
+// DevExtreme tématu Generic Dark (tmavě šedé pozadí, světlejší modrý
+// akcent kvůli kontrastu na tmavém podkladu).
+//
+// Pozn.: --qpx-alt-row-bg / --qpx-disabled / --qpx-edit-bg - viz
+// komentář v themes/_light.scss.
+// =====================================================================
+
+@mixin qpx-theme-vars {
+    --qpx-bg:              #2a2a2a;
+    --qpx-surface:         #333333;
+    --qpx-border:          #474747;
+    --qpx-text:            #e6e6e6;
+    --qpx-text-muted:      #a3a3a3;
+    --qpx-hover:           #3f3f3f;
+
+    --qpx-accent:          #4dabf7;
+    --qpx-accent-contrast: #1b1b1b;
+    --qpx-selected:        #38495a;
+    --qpx-shadow:          rgba(0, 0, 0, .5);
+
+    --qpx-success:          #3fb27f;
+    --qpx-success-contrast: #10241a;
+    --qpx-danger:           #e2726e;
+    --qpx-danger-contrast:  #2a0f0e;
+    --qpx-warning:          #e3b64f;
+    --qpx-warning-contrast: #2a2a2a;
+
+    // Na tmavém pozadí se má hover checkboxu (qpTreeView) zesvětlit
+    --qpx-checkbox-hover-filter: brightness(1.2);
+
+    // Zebrované ("alternující") pozadí řádků - qpDataGrid
+    --qpx-alt-row-bg: #2b2b2b;
+
+    // Barva "zašedlého" (needitovatelného/vypnutého) textu či ikony
+    --qpx-disabled: #5c5c5c;
+
+    // Jemné zvýraznění právě editovaného řádku/buňky (qpDataGrid)
+    --qpx-edit-bg: #3a3418;
+}

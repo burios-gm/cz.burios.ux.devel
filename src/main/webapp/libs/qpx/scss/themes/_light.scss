@@ -1,0 +1,53 @@
+// =====================================================================
+// qpx - themes/_light.scss
+// Barevná paleta "generic-light", vzhledově vycházející z výchozího
+// DevExtreme tématu Generic Light (bílé pozadí, jemné šedé linky,
+// akcentová modrá #337ab7).
+//
+// Barvy se do CSS promítají jako custom properties (--qpx-*), takže
+// se dají za běhu přepnout jinou třídou na kontejneru (viz
+// scss/qp-framework.scss), nebo je lze v konzumentské aplikaci
+// libovolně přebít vlastním pravidlem s vyšší specificitou.
+//
+// Pozn.: --qpx-alt-row-bg / --qpx-disabled / --qpx-edit-bg byly
+// doplněny při sjednocování qpDataGrid a qpTabView se zbytkem
+// frameworku - dřív šlo o soukromé $qp-grid-*/$qp-tabview-* barvy
+// bez obecného ekvivalentu; nově jsou to sdílené tokeny použitelné
+// i v dalších (i budoucích) widgetech.
+// =====================================================================
+
+@mixin qpx-theme-vars {
+    --qpx-bg:              #ffffff;
+    --qpx-surface:         #f8f9fb;
+    --qpx-border:          #d3d9df;
+    --qpx-text:            #333333;
+    --qpx-text-muted:      #767676;
+    --qpx-hover:           #eceff1;
+
+    --qpx-accent:          #337ab7;
+    --qpx-accent-contrast: #ffffff;
+    --qpx-selected:        #e3f0fb;
+    --qpx-shadow:          rgba(0, 0, 0, .15);
+
+    --qpx-success:          #2e9e5b;
+    --qpx-success-contrast: #ffffff;
+    --qpx-danger:           #d9534f;
+    --qpx-danger-contrast:  #ffffff;
+    --qpx-warning:          #e0a72b;
+    --qpx-warning-contrast: #2a2a2a;
+
+    // Na světlém pozadí se má hover checkboxu (qpTreeView) ztmavit
+    --qpx-checkbox-hover-filter: brightness(0.9);
+
+    // Zebrované ("alternující") pozadí řádků - qpDataGrid, potenciálně
+    // i qpTreeView/qpPropertyTable apod.
+    --qpx-alt-row-bg: #f7f8fa;
+
+    // Barva "zašedlého" (needitovatelného/vypnutého) textu či ikony -
+    // odlišná od --qpx-text-muted (ten je pro běžný popisný text,
+    // tohle je vyloženě pro disabled stav).
+    --qpx-disabled: #bdbdbd;
+
+    // Jemné zvýraznění právě editovaného řádku/buňky (qpDataGrid).
+    --qpx-edit-bg: #fff8e1;
+}

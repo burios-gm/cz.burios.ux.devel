@@ -1,0 +1,92 @@
+// =====================================================================
+// qpx - widgets/_textbox.scss
+// Vzhled qpTextBox - vychází z DevExtreme Generic Light/Dark dxTextBox
+// (a je vizuálně sladěn s qpSelectBox - stejné rozměry/paddingy/módy
+// outlined | filled | underlined). Barvy jdou přes CSS proměnné
+// (--qpx-*) definované v scss/themes/_light.scss a _dark.scss.
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-textbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: $qpx-gap-sm;
+    min-height: 34px;
+    padding: 4px 6px;
+    font-size: $qpx-font-size;
+    border-radius: $qpx-radius;
+    background: var(--qpx-bg, #fff);
+    color: var(--qpx-text, #333);
+    transition: border-color $qpx-transition, box-shadow $qpx-transition, background $qpx-transition;
+    outline: none;
+
+    &.qpx-hidden { display: none; }
+
+    &:focus-within {
+        box-shadow: 0 0 0 2px var(--qpx-accent, #337ab7) inset;
+    }
+
+    // --- stylingMode -----------------------------------------------
+    &.qpx-textbox-mode-outlined {
+        border: 1px solid var(--qpx-border, #ccc);
+        &:hover { border-color: var(--qpx-accent, #337ab7); }
+    }
+
+    &.qpx-textbox-mode-filled {
+        border: 1px solid transparent;
+        background: var(--qpx-surface, #f0f0f0);
+        &:hover { background: var(--qpx-hover, #e6e6e6); }
+    }
+
+    &.qpx-textbox-mode-underlined {
+        border: none;
+        border-bottom: 1px solid var(--qpx-border, #ccc);
+        border-radius: 0;
+        background: transparent;
+        &:hover { border-bottom-color: var(--qpx-accent, #337ab7); }
+    }
+}
+
+.qpx-textbox-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 2px 2px;
+
+    &::placeholder {
+        color: var(--qpx-text-muted, #767676);
+    }
+
+    &[readonly] {
+        cursor: default;
+    }
+}
+
+.qpx-textbox-clear {
+    flex: 0 0 auto;
+    cursor: pointer;
+    color: var(--qpx-text-muted, #767676);
+    line-height: 1;
+    padding: 2px 4px;
+    user-select: none;
+
+    &:hover {
+        color: var(--qpx-text, #333);
+    }
+}
+
+// --- stavy disabled / readonly ----------------------------------------
+.qpx-textbox.qpx-state-disabled {
+    @include qpx-disabled-state;
+}
+
+.qpx-textbox.qpx-state-readonly {
+    .qpx-textbox-input { cursor: default; }
+}

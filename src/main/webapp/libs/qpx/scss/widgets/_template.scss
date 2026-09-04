@@ -1,0 +1,15 @@
+// =====================================================================
+// qpx - widgets/_template.scss
+// Styly pro komponentu "template" (qpx.template.js).
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-template {
+    padding: 10px 12px;
+    overflow: auto;
+    background: var(--qpx-bg, #fff);
+    color: var(--qpx-text, #333);
+}
+.qpx-template.qpx-borderless { padding: 0; }
+.qpx-template.qpx-template-autoheight { height: auto; }

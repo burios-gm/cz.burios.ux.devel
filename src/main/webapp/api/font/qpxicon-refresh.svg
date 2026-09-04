@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 24 24"
+     fill="none"
+     stroke="currentColor"
+     stroke-width="1"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+  <!-- kruh -->
+  <path d="m 18,12 a 6,6 0 1 1 -7,-6"/>
+
+  <!-- šipka -->
+  <polyline points="9 5 12 6 11 9" transform="translate(-0.09795918,-0.45714286)" />
+</svg>

@@ -1,0 +1,205 @@
+// =====================================================================
+// qpx - base/_normalize.scss
+// Lehká normalizace/reset, schválně omezená pouze na ".qpx-view" (a její
+// potomky). Cílem NENÍ resetovat celou hostitelskou stránku (JSP/Spring
+// aplikace do které se qpx vkládá) - jen zajistit, aby se widgety
+// chovaly napříč prohlížeči stejně a nezávisely na stylech okolní
+// stránky (marginy nadpisů, box-sizing, vzhled tlačítek/inputů...).
+//
+// Součástí souboru je i knihovna Normalize.css v8.0.1
+// (MIT license, Nicolas Gallagher & Jonathan Neal,
+// https://necolas.github.io/normalize.css/) - viz sekce níže.
+// Pravidla knihovny jsou:
+//   - přemapována z html/body/* selektorů na ".qpx-view" (a potomky),
+//     aby se normalizace neprojevila mimo widget na hostitelské stránce,
+//   - ZÚŽENA o pravidla, která si qpx už řeší vlastním (a záměrně
+//     odlišným) resetem výše - box-sizing:border-box všude, vlastní
+//     typografie nadpisů, vlastní font/color/margin reset na
+//     button/input/select/textarea. Ta se NEpřepisují, aby nedošlo ke
+//     změně vzhledu už použitých widgetů,
+//   - vynechána jsou pravidla vázaná na <html>/<body> (výchozí
+//     line-height, text-size-adjust, margin dokumentu) - u ".qpx-view"
+//     (v praxi běžný <div>) nedávají smysl a qpx si stejnou věc
+//     (line-height, text-size-adjust) řeší sám v bloku výše.
+// Zbylá doplněná pravidla jsou drobné cross-browser opravy (fieldset/
+// legend, checkbox/radio, search input, file-upload tlačítko, sub/sup,
+// abbr...), které jsou v aktuálních prohlížečích prakticky neviditelné,
+// takže dopad na už nasazené widgety by měl být minimální až nulový.
+// =====================================================================
+
+@use "variables" as *;
+
+.qpx-view {
+    box-sizing: border-box;
+    font-family: $qpx-font-family;
+    font-size: $qpx-font-size;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-size-adjust: 100%;
+}
+
+.qpx-view,
+.qpx-view * ,
+.qpx-view *::before,
+.qpx-view *::after {
+    box-sizing: border-box;
+}
+
+.qpx-view {
+    // reset typografie uvnitř widgetů (šablony často vkládají h1-h6/p/ul)
+    h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+        margin: 0 0 .5em;
+    }
+    h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.25; }
+
+    ul, ol { margin: 0 0 .5em; padding-left: 1.25em; }
+
+    img, svg, video, canvas {
+        max-width: 100%;
+        display: block;
+    }
+
+    a { color: var(--qpx-accent, #337ab7); }
+
+    // sjednocení vzhledu formulářových prvků napříč prohlížeči
+    // (doplněn "optgroup" - Normalize.css ho normalizuje spolu s ostatními)
+    button, input, select, textarea, optgroup {
+        font: inherit;
+        color: inherit;
+        margin: 0;
+    }
+    button { background: none; border: 0; padding: 0; }
+
+    // odstranění výchozích "user agent" stylů pro klikatelné/dostupné prvky
+    [role="button"], [tabindex] {
+        outline: none;
+    }
+    [role="button"] {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    // odstranění odrážek u prvků, které si vlastní vzhled řeší widgety samy
+    .qpx-popup-list, .qpx-toolbar-menu {
+        list-style: none;
+    }
+}
+
+// ---------------------------------------------------------------------
+// Normalize.css v8.0.1 (MIT license, necolas/normalize.css)
+// Doplňkové, ne-konfliktní normalizace - zúžené na .qpx-view.
+// Vynechána pravidla html/body a vše, co je řešeno v blocích výše.
+// ---------------------------------------------------------------------
+.qpx-view {
+
+    main { display: block; } // konzistentní <main> napříč prohlížeči (IE)
+
+    hr {
+        // box-sizing necháváme border-box - viz .qpx-view * výše
+        height: 0;
+        overflow: visible;
+    }
+
+    pre {
+        font-family: monospace, monospace;
+        font-size: 1em;
+    }
+
+    a { background-color: transparent; } // barvu/podtržení řeší qpx výše
+
+    abbr[title] {
+        border-bottom: none;
+        text-decoration: underline;
+        text-decoration: underline dotted;
+    }
+
+    b, strong { font-weight: bolder; }
+
+    code, kbd, samp {
+        font-family: monospace, monospace;
+        font-size: 1em;
+    }
+
+    small { font-size: 80%; }
+
+    sub, sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+    }
+    sub { bottom: -.25em; }
+    sup { top: -.5em; }
+
+    img { border-style: none; }
+
+    button, input { overflow: visible; }
+    button, select { text-transform: none; }
+
+    button,
+    [type="button"],
+    [type="reset"],
+    [type="submit"] {
+        -webkit-appearance: button;
+    }
+    button::-moz-focus-inner,
+    [type="button"]::-moz-focus-inner,
+    [type="reset"]::-moz-focus-inner,
+    [type="submit"]::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+    }
+    button:-moz-focusring,
+    [type="button"]:-moz-focusring,
+    [type="reset"]:-moz-focusring,
+    [type="submit"]:-moz-focusring {
+        outline: 1px dotted ButtonText;
+    }
+
+    fieldset { padding: .35em .75em .625em; }
+
+    legend {
+        // box-sizing necháváme border-box - viz .qpx-view * výše
+        color: inherit;
+        display: table;
+        max-width: 100%;
+        padding: 0;
+        white-space: normal;
+    }
+
+    progress { vertical-align: baseline; }
+
+    textarea { overflow: auto; }
+
+    [type="checkbox"], [type="radio"] {
+        // box-sizing necháváme border-box - viz .qpx-view * výše
+        padding: 0;
+    }
+
+    [type="number"]::-webkit-inner-spin-button,
+    [type="number"]::-webkit-outer-spin-button {
+        height: auto;
+    }
+
+    [type="search"] {
+        -webkit-appearance: textfield;
+        outline-offset: -2px;
+    }
+    [type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+    }
+
+    ::-webkit-file-upload-button {
+        -webkit-appearance: button;
+        font: inherit;
+    }
+
+    details { display: block; }
+    summary { display: list-item; }
+
+    template { display: none; }
+    [hidden] { display: none; }
+}
+
+// utilitní třída pro skrývání (používá ji několik widgetů - visible:false, ...)
+.qpx-hidden { display: none !important; }

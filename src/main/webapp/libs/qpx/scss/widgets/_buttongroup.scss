@@ -1,0 +1,27 @@
+// =====================================================================
+// qpx - widgets/_buttongroup.scss
+// Styly pro komponentu "buttonGroup" (qpx.buttongroup.js). Vizuálně
+// navazuje na .qpx-button (položky mají třídu qpx-button + qpx-buttongroup-item).
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-buttongroup { display: inline-flex; }
+
+.qpx-buttongroup-item {
+    border-radius: 0;
+    margin-left: -1px;
+
+    &:first-child { border-top-left-radius: $qpx-radius; border-bottom-left-radius: $qpx-radius; margin-left: 0; }
+    &:last-child  { border-top-right-radius: $qpx-radius; border-bottom-right-radius: $qpx-radius; }
+
+    &.qpx-state-selected {
+        background: var(--qpx-selected, #dbe9f5);
+        border-color: var(--qpx-accent, #337ab7);
+        color: var(--qpx-accent, #337ab7);
+        position: relative;
+        z-index: 1;
+    }
+
+    &.qpx-state-disabled { @include qpx-disabled-state; }
+}

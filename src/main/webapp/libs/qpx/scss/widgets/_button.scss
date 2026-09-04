@@ -1,0 +1,57 @@
+// =====================================================================
+// qpx - widgets/_button.scss
+// Styly pro komponentu "button" (qpx.button.js).
+// =====================================================================
+
+@use "../base/variables" as *;
+
+.qpx-button {
+    display: inline-flex;
+    align-items: center;
+    gap: $qpx-gap-sm;
+    justify-content: center;
+    padding: $qpx-padding-btn-y $qpx-padding-btn-x;
+    font-size: $qpx-font-size;
+    line-height: 1.2;
+    border-radius: $qpx-radius;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    background: var(--qpx-surface, #f0f0f0);
+    color: var(--qpx-text, #333);
+    border-color: var(--qpx-border, #ccc);
+    white-space: nowrap;
+    transition: background-color $qpx-transition, border-color $qpx-transition;
+
+    @include qpx-focus-ring;
+
+    &:hover { background: var(--qpx-hover, #e6e6e6); }
+
+    .qpx-icon { font-size: 14px; line-height: 1; }
+}
+
+// -- stylingMode: contained (barevná plná varianta podle "type") -------
+.qpx-button.qpx-button-mode-contained {
+    &.qpx-button-default { background: var(--qpx-accent, #337ab7); color: var(--qpx-accent-contrast, #fff); border-color: var(--qpx-accent, #337ab7); }
+    &.qpx-button-success { background: var(--qpx-success, #2e9e5b); color: var(--qpx-success-contrast, #fff); border-color: var(--qpx-success, #2e9e5b); }
+    &.qpx-button-danger  { background: var(--qpx-danger, #d9534f); color: var(--qpx-danger-contrast, #fff); border-color: var(--qpx-danger, #d9534f); }
+    &.qpx-button-warning { background: var(--qpx-warning, #e0a72b); color: var(--qpx-warning-contrast, #2a2a2a); border-color: var(--qpx-warning, #e0a72b); }
+}
+
+// -- stylingMode: outlined ---------------------------------------------
+.qpx-button.qpx-button-mode-outlined {
+    background: transparent;
+    &.qpx-button-default { color: var(--qpx-accent, #337ab7); border-color: var(--qpx-accent, #337ab7); }
+}
+
+// -- stylingMode: text ---------------------------------------------------
+.qpx-button.qpx-button-mode-text {
+    background: transparent;
+    border-color: transparent;
+    &:hover { background: var(--qpx-hover, #e6e6e6); }
+}
+
+// -- disabled stav (sdílený mixin, používá ho i buttonGroup/dropDownButton)
+.qpx-button.qpx-state-disabled {
+    @include qpx-disabled-state;
+}
