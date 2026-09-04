@@ -1,0 +1,33 @@
+// =====================================================================
+// qpx - qp-framework.scss
+// Hlavní ("default") vstupní bod SCSS buildu.
+//
+//   npm run build-css   ->  themes/jquery.qpx.default.css
+//   npm run watch-css   ->  totéž, ale s automatickým přebuildem
+//   npm run test-css    ->  jen ověří, že se vše zkompiluje bez chyby
+//
+// Výsledek obsahuje strukturální styly VŠECH widgetů + OBĚ barevná
+// témata (generic-light i generic-dark) zapsaná jako CSS custom
+// properties na třídách .qpx-theme-generic-light / .qpx-theme-generic-dark.
+// Díky tomu lze téma přepínat za běhu (viz qpToolBar: theme: "generic-dark",
+// resp. toolbar.option("theme", "generic-dark")), aniž by bylo nutné
+// přehazovat <link> na jiný CSS soubor.
+//
+// Pokud aplikace vždy používá jen JEDNO téma a přepínání za běhu
+// nepotřebuje, je výhodnější použít samostatný build - viz light.scss
+// / dark.scss (menší výsledný CSS, není potřeba wrapper třída).
+// =====================================================================
+
+@use "base/normalize";
+@use "themes/light" as light;
+@use "themes/dark" as dark;
+
+@use "widgets/layout";
+@use "widgets/template";
+@use "widgets/button";
+@use "widgets/buttongroup";
+@use "widgets/popup-list";
+@use "widgets/textbox";
+
+.qpx-theme-generic-light { @include light.qpx-theme-vars; }
+.qpx-theme-generic-dark  { @include dark.qpx-theme-vars; }

@@ -1,0 +1,23 @@
+// =====================================================================
+// qpx - dark.scss
+// Samostatný build jednoho tématu ("generic-dark") - obdoba dx.dark.css
+// z DevExtreme. Do stránky se vloží tento jediný soubor, přepínací
+// třída na <body> není potřeba.
+//
+//   npm run build-dark   ->  themes/jquery.qpx.dark.css
+// =====================================================================
+
+@use "base/normalize";
+@use "themes/dark" as dark;
+
+@use "widgets/layout";
+@use "widgets/template";
+@use "widgets/button";
+@use "widgets/buttongroup";
+@use "widgets/popup-list";
+@use "widgets/textbox";
+
+:root,
+.qpx-view {
+    @include dark.qpx-theme-vars;
+}

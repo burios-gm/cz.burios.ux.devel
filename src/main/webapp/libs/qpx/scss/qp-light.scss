@@ -1,0 +1,26 @@
+// =====================================================================
+// qpx - light.scss
+// Samostatný build jednoho tématu ("generic-light"), obdoba toho, jak
+// DevExtreme distribuuje dx.light.css - do stránky se vloží tento
+// jediný soubor a už není potřeba žádná přepínací třída na <body>.
+//
+//   npm run build-light   ->  themes/jquery.qpx.light.css
+// =====================================================================
+
+@use "base/normalize";
+@use "themes/light" as light;
+
+@use "widgets/layout";
+@use "widgets/template";
+@use "widgets/button";
+@use "widgets/buttongroup";
+@use "widgets/popup-list";
+@use "widgets/textbox";
+
+// proměnné tématu se aplikují rovnou na :root i na .qpx-view,
+// takže je není nutné (ale je stále možné) obalovat třídou
+// .qpx-theme-generic-light
+:root,
+.qpx-view {
+    @include light.qpx-theme-vars;
+}
